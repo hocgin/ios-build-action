@@ -44,9 +44,9 @@ platform :ios do
       )
     end
 
-    if use_project
-      disable_automatic_code_signing( path: ENV['PROJECT_PATH'] )
-    end
+#     if use_project
+#       disable_automatic_code_signing( path: ENV['PROJECT_PATH'] )
+#     end
 
     build_app(
       workspace: use_workspace ? ENV['WORKSPACE_PATH'] : nil,
@@ -66,9 +66,9 @@ platform :ios do
       } : nil
     )
 
-    if use_project
-      enable_automatic_code_signing( path: ENV['PROJECT_PATH'] )
-    end
+#     if use_project
+#       enable_automatic_code_signing( path: ENV['PROJECT_PATH'] )
+#     end
 
     if ENV["BROWSERSTACK_UPLOAD"] == 'true'
       upload_to_browserstack_app_live(

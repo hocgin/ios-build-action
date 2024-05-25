@@ -30,6 +30,7 @@ platform :ios do
     )
 
     use_workspace = !ENV['WORKSPACE_PATH'].empty?
+    use_project = !ENV['PROJECT_PATH'].empty?
     match(type: ENV['MATCH_BUILD_TYPE'], api_key: api_key)
 
     if ENV['INCREMENT_BUILD_NUMBER'] == 'true'
@@ -43,7 +44,10 @@ platform :ios do
       )
     end
 
-    disable_automatic_code_signing
+    if use_project
+      disable_automatic_code_signing( path: ENV['PROJECT_PATH'] )
+    end
+
     build_app(
       workspace: use_workspace ? ENV['WORKSPACE_PATH'] : nil,
       project: !use_workspace ? ENV['PROJECT_PATH'] : nil,
@@ -61,7 +65,10 @@ platform :ios do
         },
       } : nil
     )
-    enable_automatic_code_signing
+
+    if use_project
+      enable_automatic_code_signing( path: ENV['PROJECT_PATH'] )
+    end
 
     if ENV["BROWSERSTACK_UPLOAD"] == 'true'
       upload_to_browserstack_app_live(

@@ -34,6 +34,11 @@ async function run() {
     process.env.FASTLANE_VERSION = core.getInput("fastlane-version");
     process.env.FASTLANE_ENV = core.getInput("fastlane-env");
     process.env.IOS_APP_ID = core.getInput("ios-app-id");
+
+    // 蒲公英
+    process.env.PGY_UPLOAD = core.getInput("pgy-upload");
+    process.env.PGY_API_KEY = core.getInput("pgy-api-key");
+    process.env.PGY_PASSWORD = core.getInput("pgy-password");
     await exec.exec(`bash ${__dirname}/../build.sh`);
   } catch (error) {
     core.setFailed(error.message);

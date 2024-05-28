@@ -78,6 +78,11 @@ platform :ios do
       )
     end
 
+    # 上传蒲公英
+    if ENV["PGY_UPLOAD"] == 'true'
+      pgyer(api_key: ENV["PGY_API_KEY"], password: ENV["PGY_PASSWORD"], install_type: "2", update_description: "更新内容")
+    end
+
     if ENV["TESTFLIGHT_UPLOAD"] == 'true'
       upload_to_testflight(
         ipa: File.join(File.dirname(ENV['OUTPUT_PATH']), File.basename(ENV['OUTPUT_PATH'])),

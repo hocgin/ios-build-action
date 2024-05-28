@@ -49,14 +49,14 @@ platform :ios do
 #       disable_automatic_code_signing( path: ENV['PROJECT_PATH'] )
 #     end
     # update_code_signing_settings
-    update_code_signing_settings(
-      use_automatic_signing: false,
-      path: !use_workspace ? ENV['PROJECT_PATH'] : nil,
-      team_id: ENV["TEAM_ID"],
-      bundle_identifier: ENV["IOS_APP_ID"],
-      # code_sign_identity: "iPhone Distribution",
-      profile_name: "match AppStore #{ENV['IOS_APP_ID']}",
-    )
+#     update_code_signing_settings(
+#       use_automatic_signing: false,
+#       path: !use_workspace ? ENV['PROJECT_PATH'] : nil,
+#       team_id: ENV["TEAM_ID"],
+#       bundle_identifier: ENV["IOS_APP_ID"],
+#       # code_sign_identity: "iPhone Distribution",
+#       profile_name: "match AppStore #{ENV['IOS_APP_ID']}",
+#     )
 
     build_app(
       workspace: use_workspace ? ENV['WORKSPACE_PATH'] : nil,

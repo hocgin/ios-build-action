@@ -1,3 +1,26 @@
+# 扩展 Build iOS App
+
+> 新增'蒲公英发布' 和 'provisioning-profile' 等字段
+
+## 输入
+
+| 参数                   | 功能                                    | 默认值   |
+|----------------------|---------------------------------------|-------|
+| appstore-upload      |                                       | false |
+| pgy-upload           | 蒲公英配置                                 | false |
+| pgy-api-key          |                                       |       |
+| pgy-password         |                                       |       |
+| pgy-install-type     |                                       |       |
+| provisioning-profile | 例如: match AdHoc com.identifier.my_app |    |
+
+## 输出
+
+| 参数           | 功能        | 默认值 |
+|--------------|-----------|-----|
+| download_url | 蒲公英下载页面链接 |     |
+
+----
+
 # Build iOS App
 
 This action builds your iOS project (`.xcodeproj`, `.xcworkspace`) and can export the resulting `.ipa` file as GitHub artifact, with optional automatic upload to BrowserStack AppLive, and optional signed production build with App Store upload.
@@ -125,12 +148,11 @@ If you have any other inputs you'd like to add, feel free to create PR.
 ## Example usage with a production build uploaded to App Store
 
 ```yaml
-- uses: sparkfabrik/ios-build-action@v2.3.0
+- uses: hocgin/ios-build-action@master
   with:
-    upload-to-testflight: true
     increment-build-number: true
-    build-pods: true
-    pods-path: "ios/Podfile"
+    #    build-pods: true
+    #    pods-path: "ios/Podfile"
     configuration: Release
     export-method: app-store
     workspace-path: ${{ secrets.WORKSPACE_PATH }}
@@ -139,6 +161,7 @@ If you have any other inputs you'd like to add, feel free to create PR.
     output-path: build-${{ github.sha }}.ipa
     apple-key-id: ${{ secrets.APPLE_KEY_ID }}
     apple-key-issuer-id: ${{ secrets.APPLE_KEY_ISSUER_ID }}
+    # 需要使用 base64 编码后的值
     apple-key-content: ${{ secrets.APPLE_KEY_CONTENT }}
     team-id: ${{ secrets.TEAM_ID }}
     team-name: ${{ secrets.TEAM_NAME }}
@@ -146,9 +169,15 @@ If you have any other inputs you'd like to add, feel free to create PR.
     match-git-url: ${{ secrets.MATCH_GIT_URL }}
     match-git-basic-authorization: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
     match-build-type: "appstore"
-    browserstack-upload: true
-    browserstack-username: ${{ secrets.BROWSERSTACK_USERNAME }}
-    browserstack-access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-    fastlane-env: stage
+    #    browserstack-upload: true
+    #    browserstack-username: ${{ secrets.BROWSERSTACK_USERNAME }}
+    #    browserstack-access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+    #    fastlane-env: stage
     ios-app-id: com.identifier.my_app
+
+    provisioning-profile: match AppStore com.identifier.my_app
+    pgy-upload: true
+    pgy-api-key: your_api_key
+    pgy-password: hocgin
+    pgy-install-type: 2
 ```

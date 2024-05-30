@@ -22,6 +22,8 @@ platform :ios do
 
   desc "Build"
   lane :build do
+    setup_ci if ENV['CI']
+
     api_key = app_store_connect_api_key(
       key_id: ENV['APPLE_KEY_ID'],
       issuer_id: ENV['APPLE_KEY_ISSUER_ID'],
@@ -29,6 +31,9 @@ platform :ios do
       is_key_content_base64: true,
       in_house: false # optional but may be required if using match/sigh
     )
+
+    provisioning_profile = ENV['PROVISIONING_PROFILE']
+    use_provisioning_profile = !provisioning_profile.empty?
 
     use_workspace = !ENV['WORKSPACE_PATH'].empty?
     use_project = !ENV['PROJECT_PATH'].empty?
@@ -45,18 +50,14 @@ platform :ios do
       )
     end
 
-#     if use_project
-#       disable_automatic_code_signing( path: ENV['PROJECT_PATH'] )
-#     end
-    # update_code_signing_settings
-#     update_code_signing_settings(
-#       use_automatic_signing: false,
-#       path: !use_workspace ? ENV['PROJECT_PATH'] : nil,
-#       team_id: ENV["TEAM_ID"],
-#       bundle_identifier: ENV["IOS_APP_ID"],
-#       # code_sign_identity: "iPhone Distribution",
-#       profile_name: "match AppStore #{ENV['IOS_APP_ID']}",
-#     )
+    if use_provisioning_profile
+      update_code_signing_settings(
+        use_automatic_signing: false,
+        sdk: "iphoneos*",
+        profile_name: provisioning_profile,
+        path: ENV['PROJECT_PATH']
+      )
+    end
 
     build_app(
       workspace: use_workspace ? ENV['WORKSPACE_PATH'] : nil,
@@ -69,17 +70,12 @@ platform :ios do
       export_method: ENV['EXPORT_METHOD'],
       export_team_id: ENV['TEAM_ID'],
       silent: true,
-#       xcargs: "-allowProvisioningUpdates",
-      export_options: ENV['IOS_APP_ID'] != nil ? {
+      export_options: use_provisioning_profile ? {
         provisioningProfiles: {
-          "#{ENV['IOS_APP_ID']}" => "match AppStore #{ENV['IOS_APP_ID']}",
+          "#{ENV['IOS_APP_ID']}" => provisioning_profile,
         },
       } : nil
     )
-
-#     if use_project
-#       enable_automatic_code_signing( path: ENV['PROJECT_PATH'] )
-#     end
 
     if ENV["BROWSERSTACK_UPLOAD"] == 'true'
       upload_to_browserstack_app_live(
@@ -91,7 +87,9 @@ platform :ios do
 
     # 上传蒲公英
     if ENV["PGY_UPLOAD"] == 'true'
-      pgyer(api_key: ENV["PGY_API_KEY"], password: ENV["PGY_PASSWORD"], install_type: "2", update_description: "更新内容")
+      answer = pgyer(api_key: ENV["PGY_API_KEY"], password: ENV["PGY_PASSWORD"], install_type: ENV["PGY_INSTALL_TYPE"], update_description: "by fastlane")
+
+      sh("echo download_url=#{answer["fastlaneAddedWholeVisitUrl"]} >> $GITHUB_ENV")
     end
 
     if ENV["TESTFLIGHT_UPLOAD"] == 'true'
@@ -104,6 +102,13 @@ platform :ios do
         skip_submission: true,
       )
     end
+
+    if ENV["APPSTORE_UPLOAD"] == 'true'
+      upload_to_app_store(
+        ignore_language_directory_validation: true
+      )
+    end
+
   end
 
   after_all do

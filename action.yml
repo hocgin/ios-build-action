@@ -98,6 +98,9 @@ inputs:
   ios-app-id:
     description: "The iOS application identifier; useful to sync a specific provisioning profile"
     required: false
+outputs:
+  download_url:
+    description: "The pgy download url of the ipa"
 runs:
   using: "node16"
   main: "dist/index.js"

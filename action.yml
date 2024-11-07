@@ -110,6 +110,11 @@ inputs:
     required: false
   provisioning-profile:
     description: "The path to the provisioning profile"
+    required: false
+  code-sign-identity:
+    description: "The code signing identity"
+    required: false
+    default: "Apple Development"
 outputs:
   download_url:
     description: "The pgy download url of the ipa"

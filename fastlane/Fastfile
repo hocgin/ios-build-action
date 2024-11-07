@@ -55,6 +55,7 @@ platform :ios do
       update_code_signing_settings(
         use_automatic_signing: false,
         sdk: "iphoneos*",
+        code_sign_identity: ENV['CODE_SIGN_IDENTITY']
         profile_name: ENV['PROVISIONING_PROFILE'],
         path: ENV['PROJECT_PATH']
       )

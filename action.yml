@@ -71,7 +71,7 @@ inputs:
     required: true
   match-git-basic-authorization:
     description: "The basic authorization to access the repository."
-    required: true
+    required: false
   match-build-type:
     description: "The build type to use when building the app."
     required: true
@@ -98,6 +98,18 @@ inputs:
   ios-app-id:
     description: "The iOS application identifier; useful to sync a specific provisioning profile"
     required: false
+  pgy-upload:
+    description: "蒲公英配置, 配置上传蒲公英"
+    default: false
+    required: false
+  pgy-api-key:
+    description: "蒲公英 api key"
+    required: false
+  pgy-password:
+    description: "蒲公英密码"
+    required: false
+  provisioning-profile:
+    description: "The path to the provisioning profile"
 outputs:
   download_url:
     description: "The pgy download url of the ipa"

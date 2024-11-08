@@ -114,7 +114,7 @@ inputs:
   code-sign-identity:
     description: "The code signing identity"
     required: false
-    default: "Apple Development"
+    default: "Apple Distribution"
 outputs:
   download_url:
     description: "The pgy download url of the ipa"

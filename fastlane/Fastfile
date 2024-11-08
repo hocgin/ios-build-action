@@ -38,7 +38,11 @@ platform :ios do
     use_project = !ENV['PROJECT_PATH'].empty?
 
     # https://docs.fastlane.tools/actions/match/
-    match(type: ENV['MATCH_BUILD_TYPE'], api_key: api_key, readonly: false)
+    match(
+        # appstore, adhoc, development, enterprise
+        type: ENV['MATCH_BUILD_TYPE'],
+        api_key: api_key,
+        readonly: true)
 
     if ENV['INCREMENT_BUILD_NUMBER'] == 'true'
       increment_build_number(
@@ -69,6 +73,7 @@ platform :ios do
       output_directory: File.dirname(ENV['OUTPUT_PATH']),
       output_name: File.basename(ENV['OUTPUT_PATH']),
       clean: true,
+      # app-store, ad-hoc, development, enterprise
       export_method: ENV['EXPORT_METHOD'],
       export_team_id: ENV['TEAM_ID'],
       silent: true,

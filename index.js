@@ -33,6 +33,7 @@ async function run() {
     process.env.EXPORT_METHOD = core.getInput("export-method");
     process.env.MATCH_BUILD_TYPE = core.getInput("match-build-type");
     process.env.PROVISIONING_PROFILE = core.getInput("provisioning-profile");
+    process.env.CODE_SIGN_IDENTITY = core.getInput("code-sign-identity");
 
     process.env.CONFIGURATION = core.getInput("configuration");
     process.env.OUTPUT_PATH = core.getInput("output-path");

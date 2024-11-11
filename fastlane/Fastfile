@@ -65,6 +65,7 @@ platform :ios do
       )
     end
 
+    # cache: https://github.com/jimmya/SPM-Caching/blob/main/fastlane/Fastfile
     packages_path = nil
     use_cached = ENV['HAS_PACKAGES_CACHE_HIT']
     if use_cached

@@ -65,6 +65,12 @@ platform :ios do
       )
     end
 
+    packages_path = nil
+    use_cached = ENV['HAS_PACKAGES_CACHE_HIT']
+    if use_cached
+        packages_path = "#{File.expand_path("..", Dir.pwd)}/#{PACKAGES_CACHE_PATH}"
+    end
+
     build_app(
       workspace: use_workspace ? ENV['WORKSPACE_PATH'] : nil,
       project: !use_workspace ? ENV['PROJECT_PATH'] : nil,
@@ -77,6 +83,8 @@ platform :ios do
       export_method: ENV['EXPORT_METHOD'],
       export_team_id: ENV['TEAM_ID'],
       silent: true,
+      cloned_source_packages_path: packages_path,
+      skip_package_dependencies_resolution: use_cached,
       export_options: use_provisioning_profile ? {
         provisioningProfiles: {
           "#{ENV['IOS_APP_ID']}" => ENV['PROVISIONING_PROFILE'],

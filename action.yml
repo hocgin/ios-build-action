@@ -115,6 +115,13 @@ inputs:
     description: "The code signing identity"
     required: false
     default: "Apple Distribution"
+  has-packages-cache-hit:
+    description: "The packages cache was hit"
+    required: false
+    default: false
+  packages-cache-path:
+    description: "The packages cache path"
+    required: false
 outputs:
   download_url:
     description: "The pgy download url of the ipa"

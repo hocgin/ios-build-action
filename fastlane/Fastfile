@@ -90,7 +90,8 @@ platform :ios do
         provisioningProfiles: {
           "#{ENV['IOS_APP_ID']}" => ENV['PROVISIONING_PROFILE'],
         },
-      } : nil
+      } : nil,
+      use_system_scm: true
     )
 
     if ENV["BROWSERSTACK_UPLOAD"] == 'true'

@@ -42,6 +42,7 @@ platform :ios do
         # appstore, adhoc, development, enterprise
         type: ENV['MATCH_BUILD_TYPE'],
         api_key: api_key,
+        generate_apple_certs: false,
         readonly: false)
 
     if ENV['INCREMENT_BUILD_NUMBER'] == 'true'

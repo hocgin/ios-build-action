@@ -16,8 +16,10 @@ async function run() {
         // 蒲公英
         process.env.PGY_UPLOAD = core.getInput("pgy-upload");
         process.env.PGY_API_KEY = core.getInput("pgy-api-key");
-        process.env.PGY_PASSWORD = core.getInput("pgy-password");
-        process.env.PGY_INSTALL_TYPE = core.getInput("pgy-install-type");
+        let pgypassword = core.getInput("pgy-password");
+        process.env.PGY_PASSWORD = pgypassword;
+        /// 如果有设置密码则为密码安装
+        process.env.PGY_INSTALL_TYPE = `${pgypassword}`.trim()?.length > 0 ? '2' : '1';
 
         //
         process.env.BROWSERSTACK_UPLOAD = core.getInput("browserstack-upload");
